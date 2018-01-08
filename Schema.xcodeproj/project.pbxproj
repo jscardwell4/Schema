@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C2D7ABF22003C94900D9D71C /* AltSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D7ABF12003C94900D9D71C /* AltSchema.swift */; };
 		C2EFE7F92001AE0E00F58B10 /* Schema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2EFE7EF2001AE0D00F58B10 /* Schema.framework */; };
 		C2EFE7FE2001AE0E00F58B10 /* SchemaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EFE7FD2001AE0E00F58B10 /* SchemaTests.swift */; };
 		C2EFE8002001AE0E00F58B10 /* Schema.h in Headers */ = {isa = PBXBuildFile; fileRef = C2EFE7F22001AE0D00F58B10 /* Schema.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -23,12 +24,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C2D7ABF12003C94900D9D71C /* AltSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AltSchema.swift; sourceTree = "<group>"; };
 		C2EFE7EF2001AE0D00F58B10 /* Schema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Schema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2EFE7F22001AE0D00F58B10 /* Schema.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Schema.h; sourceTree = "<group>"; };
 		C2EFE7F32001AE0D00F58B10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2EFE7F82001AE0E00F58B10 /* SchemaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SchemaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2EFE7FD2001AE0E00F58B10 /* SchemaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaTests.swift; sourceTree = "<group>"; };
 		C2EFE7FF2001AE0E00F58B10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C2EFE8092001AE9200F58B10 /* schema.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = schema.py; sourceTree = "<group>"; };
+		C2F936E120027A3200972F78 /* Schema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schema.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,8 +75,11 @@
 		C2EFE7F12001AE0D00F58B10 /* Schema */ = {
 			isa = PBXGroup;
 			children = (
+				C2F936E120027A3200972F78 /* Schema.swift */,
 				C2EFE7F22001AE0D00F58B10 /* Schema.h */,
 				C2EFE7F32001AE0D00F58B10 /* Info.plist */,
+				C2EFE8092001AE9200F58B10 /* schema.py */,
+				C2D7ABF12003C94900D9D71C /* AltSchema.swift */,
 			);
 			path = Schema;
 			sourceTree = "<group>";
@@ -148,6 +155,7 @@
 				TargetAttributes = {
 					C2EFE7EE2001AE0D00F58B10 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					C2EFE7F72001AE0E00F58B10 = {
@@ -196,6 +204,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2D7ABF22003C94900D9D71C /* AltSchema.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,6 +342,7 @@
 		C2EFE8042001AE0E00F58B10 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -348,6 +358,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.moondeerstudios.Schema;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -355,6 +366,7 @@
 		C2EFE8052001AE0E00F58B10 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -377,6 +389,7 @@
 		C2EFE8072001AE0E00F58B10 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = JT6STF4SHA;
@@ -391,6 +404,7 @@
 		C2EFE8082001AE0E00F58B10 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = JT6STF4SHA;
