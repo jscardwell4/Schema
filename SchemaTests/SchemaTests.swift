@@ -62,6 +62,16 @@ final class SchemaTests: XCTestCase {
     XCTAssertThrowsError(try use3.validate("123"))
     XCTAssertEqual(try? use3.validate(123), "123")
 
+    enum StringEnum: String {
+      case zero, one, two, three, four
+    }
+
+    let use4 = Use<String, StringEnum>(StringEnum.init(rawValue:))
+    XCTAssertNoThrow(try use4.validate("two"))
+    XCTAssertThrowsError(try use4.validate(2))
+    XCTAssertThrowsError(try use4.validate("five"))
+    XCTAssertEqual(try? use4.validate("four"), StringEnum.four)
+
   }
 
   func testOr() {
@@ -69,13 +79,13 @@ final class SchemaTests: XCTestCase {
     let or1 = Or(Schema({(data: Int) in data > 10}), Schema({(data: Int) in data < -10}))
     XCTAssertNoThrow(try or1.validate(123))
     XCTAssertThrowsError(try or1.validate(5))
-    XCTAssertEqual(try? or1.validate(123), 123)
+    XCTAssertEqual((try? or1.validate(123)) as? Int, 123)
 
 
     let or2 = ∀({(data: Int) in data > 10}) || ∀({(data: Int) in data < -10})
     XCTAssertNoThrow(try or2.validate(123))
     XCTAssertThrowsError(try or2.validate(5))
-    XCTAssertEqual(try? or2.validate(123), 123)
+    XCTAssertEqual((try? or2.validate(123)) as? Int, 123)
 
   }
 
@@ -85,13 +95,13 @@ final class SchemaTests: XCTestCase {
     XCTAssertNoThrow(try and1.validate(120))
     XCTAssertThrowsError(try and1.validate(5))
     XCTAssertThrowsError(try and1.validate(121))
-    XCTAssertEqual(try? and1.validate(124), 124)
+    XCTAssertEqual((try? and1.validate(124)) as? Int, 124)
 
     let and2 = ∀({(data: Int) in data > 10}) && ∀({(data: Int) in data % 2 == 0})
     XCTAssertNoThrow(try and2.validate(120))
     XCTAssertThrowsError(try and2.validate(5))
     XCTAssertThrowsError(try and2.validate(121))
-    XCTAssertEqual(try? and2.validate(124), 124)
+    XCTAssertEqual((try? and2.validate(124)) as? Int, 124)
 
   }
 
@@ -102,9 +112,11 @@ final class SchemaTests: XCTestCase {
       "age": Schema({(data: Int) in data >= 18 && data <= 99})
     ]
 
+    struct NotConvertible {}
+
     XCTAssertNoThrow(try dict1.validate(["name": "Sue", "age": 28]))
     XCTAssertThrowsError(try dict1.validate(["name": "Sue", "age": 8]))
-    XCTAssertThrowsError(try dict1.validate(["name": 4, "age": 28]))
+    XCTAssertThrowsError(try dict1.validate(["name": NotConvertible(), "age": 28]))
 
     let result1 = try? dict1.validate(["name": "Sue", "age": 28])
     XCTAssertEqual(result1?["name"] as? String, "Sue")
@@ -117,7 +129,7 @@ final class SchemaTests: XCTestCase {
 
     XCTAssertNoThrow(try dict2.validate(["name": "Sue", "age": 28]))
     XCTAssertThrowsError(try dict2.validate(["name": "Sue", "age": 8]))
-    XCTAssertThrowsError(try dict2.validate(["name": 4, "age": 28]))
+    XCTAssertThrowsError(try dict2.validate(["name": NotConvertible(), "age": 28]))
 
     let result2 = try? dict2.validate(["name": "Sue", "age": 28])
     XCTAssertEqual(result2?["name"] as? String, "Sue")
@@ -164,13 +176,33 @@ final class SchemaTests: XCTestCase {
 
     let type1 = Type(Int.self)
     XCTAssertNoThrow(try type1.validate(4))
-    XCTAssertThrowsError(try type1.validate("4"))
+    XCTAssertNoThrow(try type1.validate("4"))
+    XCTAssertThrowsError(try type1.validate("rew4"))
     XCTAssertEqual(try type1.validate(4), 4)
+    XCTAssertEqual(try type1.validate("4") as? Int, 4)
 
     let type2 = ∈Int.self
     XCTAssertNoThrow(try type2.validate(4))
-    XCTAssertThrowsError(try type2.validate("4"))
+    XCTAssertNoThrow(try type2.validate("4"))
+    XCTAssertThrowsError(try type2.validate("Zd4"))
     XCTAssertEqual(try type2.validate(4), 4)
+    XCTAssertEqual(try type2.validate("4") as? Int, 4)
+
+    struct NotConvertible {}
+
+    let type3 = Type(String.self)
+    XCTAssertNoThrow(try type3.validate(4))
+    XCTAssertNoThrow(try type3.validate("4"))
+    XCTAssertThrowsError(try type3.validate(NotConvertible()))
+    XCTAssertEqual(try type3.validate(4) as? String, "4")
+    XCTAssertEqual(try type3.validate("4"), "4")
+
+    let type4 = ∈String.self
+    XCTAssertNoThrow(try type4.validate(4))
+    XCTAssertNoThrow(try type4.validate("4"))
+    XCTAssertThrowsError(try type4.validate(NotConvertible()))
+    XCTAssertEqual(try type4.validate(4) as? String, "4")
+    XCTAssertEqual(try type4.validate("4"), "4")
 
   }
 
