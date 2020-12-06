@@ -118,6 +118,16 @@ public final class Dict: _Schema, ExpressibleByDictionaryLiteral, Validator {
       return lhs.hashValue == rhs.hashValue
     }
 
+    public func hash(into hasher: inout Hasher) {
+      switch self {
+        case .optional(let key, let defaultValue):
+          key.hash(into: &hasher)
+          (defaultValue ?? 0 as AnyHashable).hash(into: &hasher)
+        case .forbidden(let key), .string(let key):
+          key.hash(into: &hasher)
+      }
+    }
+
     public var hashValue: Int {
       switch self {
       case .optional(let key, let defaultValue):
